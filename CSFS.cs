@@ -24,23 +24,23 @@ namespace SampleApp
             this.AllowDrop = true;
             this.DragEnter += new DragEventHandler(Form1_DragEnter);
             this.DragDrop += new DragEventHandler(Form1_DragDrop);
-           
+
             // texbox
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             this.textBox1.AcceptsReturn = true;
             this.textBox1.AcceptsTab = true;
             this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-             this.ClientSize = new System.Drawing.Size(300, 100);
+            this.ClientSize = new System.Drawing.Size(300, 100);
             this.Controls.Add(this.textBox1);
             this.ResumeLayout(false);
             this.PerformLayout();
             textBox1.Text = ShowNetworkInterfaces();
 
-             // label
+            // label
             label1 = new System.Windows.Forms.Label();
             label1.Text = "Скопируй IP адрес из поля выше";
-            label1.Size = new Size (label1.PreferredWidth, label1.PreferredHeight);
+            label1.Size = new Size(label1.PreferredWidth, label1.PreferredHeight);
             label1.Location = new Point(80, 30);
             this.Controls.Add(label1);
 
@@ -115,7 +115,7 @@ namespace SampleApp
                     foreach (UnicastIPAddressInformation uni in uniCast)
                     {
                         if (uni.Address.AddressFamily != AddressFamily.InterNetwork) continue;
-                        string str = uni.Address + ":8880";
+                        string str = uni.Address + ":80";
                         Console.WriteLine(str);
                         return str;
                     }
@@ -127,14 +127,11 @@ namespace SampleApp
         {
             int qq = 0;
             HttpListener listener = new HttpListener();
-            // Add the prefixes.
-            // string url = "http://*";
-            // string port = "8880";
-            // string prefix = String.Format("{0}:{1}/", url, port);
-            listener.Prefixes.Add("http://*:8880/");
+            listener.Prefixes.Add("http://*:80/");
             listener.Start();
-            
-             while (qq<2) {
+
+            while (qq < 2)
+            {
                 // Note: The GetContext method blocks while waiting for a request.
                 HttpListenerContext context = listener.GetContext();
                 HttpListenerRequest request = context.Request;
@@ -149,7 +146,7 @@ namespace SampleApp
                 //response.Close();
                 qq++;
             }
-           listener.Stop();
+            listener.Stop();
         }
     }
 }
